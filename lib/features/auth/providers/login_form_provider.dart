@@ -122,7 +122,7 @@ class LoginFormNotifier extends StateNotifier<LoginFormState> {
 
     await loginUserCallback(state.email.value, state.password.value);
 
-    print(state); // call toString();
+    // print(state); // call toString();
   }
 
 

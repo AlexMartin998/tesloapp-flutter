@@ -19,15 +19,19 @@ void main() async {
 }
 
 
-class MainApp extends StatelessWidget {
+// Provider Consumer for StatelessWidget: GoRouter Proteccion de rutas
+class MainApp extends ConsumerWidget {
   const MainApp({super.key});
 
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    // dentro del    build    100pre usar   .watch()   aunq NO vaya a cambiar
+    final appRouter = ref.watch(goRouterProvider);
 
     return MaterialApp.router(
       routerConfig: appRouter,
+
       theme: AppTheme().getTheme(),
       debugShowCheckedModeBanner: false,
     );
