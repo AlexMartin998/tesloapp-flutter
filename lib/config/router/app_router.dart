@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:teslo_shop/config/router/app_router_notifier.dart';
 
 import 'package:teslo_shop/features/auth/auth.dart';
+import 'package:teslo_shop/features/auth/providers/auth_provider.dart';
 import 'package:teslo_shop/features/products/products.dart';
 
 
@@ -14,7 +15,7 @@ final goRouterProvider = Provider((ref) {
   final goRouterNotifier = ref.read(goRouterNotifierProvider);
 
   return GoRouter(
-    initialLocation: '/login',
+    initialLocation: '/splash',
 
     // // cuando cambia el Listenable vuevle a Evaluar el  redirect
     // estamos pendientes del AuthStatus y cuando cambie volvemos a evaluar el redirect
@@ -49,7 +50,27 @@ final goRouterProvider = Provider((ref) {
     // // Actual Routes Protection with Redirect
     // todas las rutas pasan x aqui
     redirect: ((context, state) { // state of GoRouter
-      print(state.subloc);
+
+      final isGoingTo = state.matchedLocation;
+      final authStatus= goRouterNotifier.authStatus;
+
+      // se esta verificando el status
+      if (isGoingTo == '/splash' && authStatus == AuthStatus.checking) return null;
+
+      if (authStatus == AuthStatus.notAuthenticated) {
+        // permitimos q vaya a las auth screens
+        if (isGoingTo == '/login' || isGoingTo == '/register') return null;
+
+        return '/login'; // 'cause is not auth
+      }
+
+      if (authStatus == AuthStatus.authenticated) {
+        // si ya esta auth NO dejarle ver auth screens
+        if (isGoingTo == '/login' || isGoingTo == '/register' || isGoingTo == '/splash') return '/';
+      }
+
+      // aqui validarias basado en Roles (Authorization)
+
       return null;
     })
 
