@@ -94,10 +94,11 @@ class AuthNotifier extends StateNotifier<AuthState> {
   void _setLoggedUser(User user) {
     // save token in mobile
 
+
     state = state.copyWith(
       user: user,
       authStatus: AuthStatus.authenticated,
-      errorMessage: '' // evitar err al 1er err then correct
+      errorMessage: '' // clean errMsg
     );
   }
 
