@@ -64,12 +64,10 @@ class AuthNotifier extends StateNotifier<AuthState> {
     try {
       final user = await authRepository.login(email, password);
       _setLoggedUser(user);
-    } on WrongCredentials {  // evaludar el Tipo de Error en el Catch
-      logout('Se ha producido un problema al iniciar sesión. Compruebe su correo electrónico y contraseña o cree una cuenta');
-    } on ConnectionTimeout {
-      logout('Timeout');
+    } on CustomError catch (e){
+      logout(e.message); // backend error message || customMessage
     } catch (e) {
-      logout('Algo salio mal');
+      logout('Something went wrong');
     }
   }
 
@@ -99,6 +97,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
     state = state.copyWith(
       user: user,
       authStatus: AuthStatus.authenticated,
+      errorMessage: '' // evitar err al 1er err then correct
     );
   }
 
