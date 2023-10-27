@@ -22,6 +22,7 @@ class CustomTextFormField extends StatelessWidget {
     this.validator, 
   });
 
+
   @override
   Widget build(BuildContext context) {
 
@@ -33,6 +34,7 @@ class CustomTextFormField extends StatelessWidget {
     );
 
     const borderRadius = Radius.circular(15);
+
 
     return Container(
       // padding: const EdgeInsets.only(bottom: 0, top: 15),
@@ -48,18 +50,21 @@ class CustomTextFormField extends StatelessWidget {
         ]
       ),
 
+
+      /* text form field */
       child: TextFormField(
         onChanged: onChanged,
         validator: validator,
         obscureText: obscureText,
         keyboardType: keyboardType,
         style: const TextStyle( fontSize: 20, color: Colors.black54 ),
+
         decoration: InputDecoration(
           floatingLabelStyle: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),
           enabledBorder: border,
           focusedBorder: border,
-          errorBorder: border.copyWith( borderSide: BorderSide( color: Colors.red.shade800 )),
-          focusedErrorBorder: border.copyWith( borderSide: BorderSide( color: Colors.red.shade800 )),
+          errorBorder: border.copyWith( borderSide: const BorderSide( color: Colors.transparent )),
+          focusedErrorBorder: border.copyWith( borderSide: const BorderSide( color: Colors.transparent )),
           isDense: true,
           label: label != null ? Text(label!) : null,
           hintText: hint,

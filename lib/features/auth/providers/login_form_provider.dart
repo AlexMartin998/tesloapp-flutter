@@ -5,6 +5,18 @@ import 'package:teslo_shop/features/shared/shared.dart';
 
 
 
+// // // StateNotifierProvider to be used with StateNotifier
+// // StateNotifierProvider: like use cases   <--  Estos SII se usan en la UI
+// .autoDispose(): Limpie la data de este State cuando se salga/destruya. Evito tener data al hacer login d new
+final loginFormProvider = StateNotifierProvider.autoDispose<LoginFormNotifier, LoginFormState>((ref) {
+
+  return LoginFormNotifier(); // instance of our notifier
+
+});
+
+
+
+
 // // State: Con Riverpod NO es indispensable el Equatable para comparar states como en Bloc
 class LoginFormState {
   final bool isPosting;
@@ -112,12 +124,3 @@ class LoginFormNotifier extends StateNotifier<LoginFormState> {
 
 }
 
-
-
-// // StateNotifierProvider: like use cases   <--  Estos SII se usan en la UI
-// .autoDispose(): Limpie la data de este State cuando se salga/destruya. Evito tener data al hacer login d new
-final loginFormProvider = StateNotifierProvider.autoDispose<LoginFormNotifier, LoginFormState>((ref) {
-
-  return LoginFormNotifier(); // instance of our notifier
-
-});
