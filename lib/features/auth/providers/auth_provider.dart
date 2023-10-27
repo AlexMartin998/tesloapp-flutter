@@ -66,6 +66,8 @@ class AuthNotifier extends StateNotifier<AuthState> {
       _setLoggedUser(user);
     } on WrongCredentials {  // evaludar el Tipo de Error en el Catch
       logout('Se ha producido un problema al iniciar sesión. Compruebe su correo electrónico y contraseña o cree una cuenta');
+    } on ConnectionTimeout {
+      logout('Timeout');
     } catch (e) {
       logout('Algo salio mal');
     }
