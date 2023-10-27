@@ -2,6 +2,7 @@ import 'package:formz/formz.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:teslo_shop/features/shared/shared.dart';
+import 'package:teslo_shop/features/auth/providers/auth_provider.dart';
 
 
 
@@ -10,7 +11,15 @@ import 'package:teslo_shop/features/shared/shared.dart';
 // .autoDispose(): Limpie la data de este State cuando se salga/destruya. Evito tener data al hacer login d new
 final loginFormProvider = StateNotifierProvider.autoDispose<LoginFormNotifier, LoginFormState>((ref) {
 
-  return LoginFormNotifier(); // instance of our notifier
+  // // evitar dependencia oculta, x eso pasar el otro Provider x aqui
+  // ref unicamente al login para NO depender de todo el RepoProvider
+  // .watch() dentro de Providers aunq no vayan a cambair. Recomendacion Docs
+  final loginUserCallback = ref.watch(authProvider.notifier).login;
+
+
+  return LoginFormNotifier(
+    loginUserCallback: loginUserCallback,
+  ); // instance of our notifier
 
 });
 
@@ -70,7 +79,13 @@ class LoginFormState {
 
 // // State notifier: Generico para varios Providers de != useCases
 class LoginFormNotifier extends StateNotifier<LoginFormState> {
-  LoginFormNotifier(): super(
+
+  // evitar dep oculta (like use case)
+  final Function(String, String) loginUserCallback;
+
+  LoginFormNotifier({
+    required this.loginUserCallback
+  }): super(
     // la creacion del init state debe ser Sync
     LoginFormState(), // init state
   );
@@ -100,10 +115,12 @@ class LoginFormNotifier extends StateNotifier<LoginFormState> {
     );
   }
 
-  onSubmit() {
+  onSubmit() async {
     // validate inputs
     _toucheEveryField();
     if (!state.isValid) return;
+
+    await loginUserCallback(state.email.value, state.password.value);
 
     print(state); // call toString();
   }

@@ -57,7 +57,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
   }): super(AuthState());
 
 
-  void login(String email, String password) async {
+  Future<void> login(String email, String password) async {
     // fake a slightly slow request
     await Future.delayed(const Duration(milliseconds: 300));
 

@@ -2,7 +2,7 @@ class User {
   final String id;
   final String email;
   final String fullName;
-  final String isActive;
+  final bool isActive;
   final String token;
   final List<String> roles;
 
