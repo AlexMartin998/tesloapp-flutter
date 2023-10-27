@@ -61,12 +61,14 @@ class AuthNotifier extends StateNotifier<AuthState> {
     // fake a slightly slow request
     await Future.delayed(const Duration(milliseconds: 300));
 
-    // final user = await authRepository.login(email, password);
-
-    // // create new state based on prev to notify to everyone (re-render)
-    // state.copyWith(
-    //   user: user,
-    // );
+    try {
+      final user = await authRepository.login(email, password);
+      _setLoggedUser(user);
+    } on WrongCredentials {  // evaludar el Tipo de Error en el Catch
+      logout('Se ha producido un problema al iniciar sesión. Compruebe su correo electrónico y contraseña o cree una cuenta');
+    } catch (e) {
+      logout('Algo salio mal');
+    }
   }
 
   void register(String email, String password) {
@@ -77,9 +79,26 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
   }
 
-  // Future<void> logout() {
+  Future<void> logout([String? errorMessage]) async {
+    // remove authToken
 
-  // }
+    state = state.copyWith(
+      authStatus: AuthStatus.notAuthenticated,
+      user: null,
+      errorMessage: errorMessage
+    );
+  }
+
+
+  // upd state after successful login
+  void _setLoggedUser(User user) {
+    // save token in mobile
+
+    state = state.copyWith(
+      user: user,
+      authStatus: AuthStatus.authenticated,
+    );
+  }
 
 }
 
