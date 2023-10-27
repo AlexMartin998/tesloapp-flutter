@@ -12,17 +12,22 @@ class LoginScreen extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     final scaffoldBackgroundColor = Theme.of(context).scaffoldBackgroundColor;
 
-    return GestureDetector(
+
+    return GestureDetector( // tap outside to close keyboard
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
-        body: GeometricalBackground( 
+
+        // random geometric backgroud
+        body: GeometricalBackground(
           child: SingleChildScrollView(
-            physics: const ClampingScrollPhysics(),
+            physics: const ClampingScrollPhysics(),  // remove rebote de ios
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
+
               children: [
                 const SizedBox( height: 80 ),
-                // Icon Banner
+
+                /* Icon Banner */
                 const Icon( 
                   Icons.production_quantity_limits_rounded, 
                   color: Colors.white,
@@ -37,6 +42,8 @@ class LoginScreen extends StatelessWidget {
                     color: scaffoldBackgroundColor,
                     borderRadius: const BorderRadius.only(topLeft: Radius.circular(100)),
                   ),
+
+                  /* Login Form */
                   child: const _LoginForm(),
                 )
               ],
@@ -47,6 +54,8 @@ class LoginScreen extends StatelessWidget {
     );
   }
 }
+
+
 
 class _LoginForm extends StatelessWidget {
   const _LoginForm();

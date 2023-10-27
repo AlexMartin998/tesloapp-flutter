@@ -5,6 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 const colorSeed = Color(0xff424CB8);
 const scaffoldBackgroundColor = Color(0xFFF8F7F7);
 
+
+
 class AppTheme {
 
   ThemeData getTheme() => ThemeData(
@@ -12,7 +14,7 @@ class AppTheme {
     useMaterial3: true,
     colorSchemeSeed: colorSeed,
 
-    ///* Texts
+    ///* Texts: Google Fonts
     textTheme: TextTheme(
       titleLarge: GoogleFonts.montserratAlternates()
         .copyWith( fontSize: 40, fontWeight: FontWeight.bold ),

@@ -47,6 +47,7 @@ class CustomTextFormField extends StatelessWidget {
           )
         ]
       ),
+
       child: TextFormField(
         onChanged: onChanged,
         validator: validator,
