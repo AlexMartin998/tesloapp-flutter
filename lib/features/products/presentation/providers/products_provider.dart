@@ -1,7 +1,17 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:teslo_shop/features/products/domain/entities/product.dart';
-import 'package:teslo_shop/features/products/domain/repositories/products_repository.dart';
+import 'package:teslo_shop/features/products/domain/domain.dart';
+import 'package:teslo_shop/features/products/presentation/providers/providers.dart';
+
+
+
+// // // StateNotifierProvider to be used with StateNotifier
+final productsProvider = StateNotifierProvider<ProductsNotifier, ProductsState>((ref) {
+  final productsRepository = ref.watch(productsRepositoryProvider);
+
+  return ProductsNotifier(productsRepository: productsRepository);
+});
+
 
 
 // // // State Notifier: Generico para varios Providers de != useCases
