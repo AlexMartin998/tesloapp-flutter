@@ -5,7 +5,7 @@ class ProductsRepositoryImpl extends ProductsRepository {
 
   final ProductsDatasource datasource;
 
-  ProductsRepositoryImpl({required this.datasource});
+  ProductsRepositoryImpl(this.datasource);
 
 
   @override
