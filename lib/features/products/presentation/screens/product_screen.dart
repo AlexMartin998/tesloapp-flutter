@@ -1,32 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:teslo_shop/features/products/presentation/providers/providers.dart';
 
 
-
-// vamos a W como en la Web, solo recibimos el ID y hacemos la Req. Asi esto tb funcionaria en la web
-class ProductScreen extends ConsumerStatefulWidget {
+// consumer for StatelessWidgets
+class ProductScreen extends ConsumerWidget {
   final String productId;
 
   const ProductScreen({super.key, required this.productId});
 
-  @override
-  ProductScreenState createState() => ProductScreenState();
-}
 
-
-class ProductScreenState extends ConsumerState<ProductScreen> {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    // llama al super() q invoca al loadProduct()
+    final productState = ref.watch(productProvider(productId));
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Create product"),
+        title: const Text('Editar Product'),
+        actions: [
+          IconButton(
+            onPressed: (){},
+            icon: const Icon(Icons.camera_alt_outlined)
+          ),
+        ],
       ),
 
-      body: Center(
-        child: Text(widget.productId),
+      body: Center(child: Text('Hello')),
+
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: const Icon(Icons.save_as_outlined),
       ),
     );
   }
 }
+
