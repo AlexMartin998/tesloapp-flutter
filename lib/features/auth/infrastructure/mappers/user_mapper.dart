@@ -8,7 +8,7 @@ class UserMapper {
     email: json['email'],
     fullName: json['fullName'],
     isActive: json['isActive'],
-    token: json['token'],
+    token: json['token'] ?? '',
 
     // mapear el Array q nos retorna la api: {roles:['admin']}
     roles: List<String>.from(json['roles'].map((role) => role)),
