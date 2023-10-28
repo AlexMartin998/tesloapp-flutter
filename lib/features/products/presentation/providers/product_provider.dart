@@ -10,7 +10,7 @@ import 'package:teslo_shop/features/products/presentation/providers/providers.da
 final productProvider = StateNotifierProvider
   .autoDispose.family<ProductNotifier, ProductState, String>((ref, productId) {
 
-  // es quien ya solito se setea el AuthToken y se upd solito
+  // es quien ya solito se setea el AuthToken y se upd solito c/cambia el authStatus evaluando el token
   final productsRepository = ref.watch(productsRepositoryProvider);
 
   return ProductNotifier(
