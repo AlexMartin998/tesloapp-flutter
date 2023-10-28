@@ -10,7 +10,7 @@ import 'package:teslo_shop/features/products/infrastructure/infrastructure.dart'
 // aqui es donde creamos la Instancia del RepoImpl pasandole el DatasourceImpl
 final productsRepositoryProvider = Provider<ProductsRepository>((ref) {
 
-  // get token (in some time it not exists so we use ??)
+  // get token (in some time it not exists so we use ??) | watch to keep track of changes
   final accessToken = ref.watch(authProvider).user?.token ?? '';
 
   return ProductsRepositoryImpl(
