@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:teslo_shop/features/products/presentation/providers/providers.dart';
+import 'package:teslo_shop/features/shared/presentation/widgets/widgets.dart';
 
 
 // consumer for StatelessWidgets
@@ -27,7 +28,7 @@ class ProductScreen extends ConsumerWidget {
         ],
       ),
 
-      body: Center(child: Text('Hello')),
+      body: FullScreenLoader(),
 
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
