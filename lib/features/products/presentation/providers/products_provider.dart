@@ -31,6 +31,7 @@ class ProductsNotifier extends StateNotifier<ProductsState> {
 
 
   Future loadNextPage() async {
+    // isLastPage avoids unnecessary requests
     if (state.isLoading || state.isLastPage) return;
     state = state.copyWith(isLoading: true);
 
@@ -40,7 +41,7 @@ class ProductsNotifier extends StateNotifier<ProductsState> {
     if (producst.isEmpty) {
       state = state.copyWith(
         isLoading: false,
-        isLastPage: true
+        isLastPage: true // isLastPage avoids unnecessary requests
       );
       return;
     }

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import 'package:teslo_shop/features/products/presentation/providers/products_provider.dart';
+import 'package:teslo_shop/features/products/presentation/widgets/widgets.dart';
 import 'package:teslo_shop/features/shared/shared.dart';
 
 
@@ -65,7 +66,13 @@ class _ProductsViewState extends ConsumerState<_ProductsView> { // ref is global
     ref.read(productsProvider.notifier).loadNextPage();
 
     // // // infinite scroll
-
+    // // Listeners are executed many times (c/0.00001): tasa de refresco mobile screen 
+    scrollController.addListener(() {
+      if ((scrollController.position.pixels + 360) >= scrollController.position.maxScrollExtent) {
+        // dado q en el loadNextPage del Provider se setea el isLastPage cuando [] se evita req al API innecesarias
+        ref.read(productsProvider.notifier).loadNextPage();
+      }
+    });
   }
   @override
   void dispose() {
@@ -86,12 +93,13 @@ class _ProductsViewState extends ConsumerState<_ProductsView> { // ref is global
         mainAxisSpacing: 20,
         crossAxisSpacing: 35,
 
-        // controller: scrollController, // infinite scroll
+        controller: scrollController, // infinite scroll
 
         itemCount: productsState.products.length,
         itemBuilder: (context, index) {
           final product = productsState.products[index];
-          return Text(product.title);
+
+          return ProductCard(product: product);
         },
       ),
     );
