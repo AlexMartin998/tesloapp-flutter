@@ -13,6 +13,15 @@ class ProductScreen extends ConsumerWidget {
 
   const ProductScreen({super.key, required this.productId});
 
+  // // 
+  // Context NO se usa dentro de async blocks
+  void showSnackbar(BuildContext context) {
+    ScaffoldMessenger.of(context).clearSnackBars();
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Producto actualizado'))
+    );
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -38,7 +47,14 @@ class ProductScreen extends ConsumerWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           if (productState.product == null) return;
-          ref.read(productFormProvider(productState.product!).notifier).onFormSubmit();
+
+          ref.read(productFormProvider(productState.product!).notifier)
+            .onFormSubmit()
+            .then((value) { // No usar context dentro de async blocs
+              if (!value) return;
+              showSnackbar(context);
+            });
+
         },
         child: const Icon(Icons.save_as_outlined),
       ),
