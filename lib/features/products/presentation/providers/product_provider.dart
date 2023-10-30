@@ -4,6 +4,10 @@ import 'package:teslo_shop/features/products/domain/domain.dart';
 import 'package:teslo_shop/features/products/presentation/providers/providers.dart';
 
 
+/* 
+  * Este Provider es para hacer el Fetch del ProductById para el ProductScreen xq Estamos W como en Web
+    - Si bien podria pasarle todo la movie a esa Screen, vamos a hacer esto para Dar Soporte a la Web y a DeepLinking mobile
+ */
 
 // // // StateNotifierProvider to be used with StateNotifier
 // .autoDispose se limpie en Auto c/q No se utiliza  |  .family para recibir Args en el provider
