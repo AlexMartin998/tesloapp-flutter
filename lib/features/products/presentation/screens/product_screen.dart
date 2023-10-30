@@ -29,34 +29,42 @@ class ProductScreen extends ConsumerWidget {
     // llama al super() q invoca al loadProduct()
     final productState = ref.watch(productProvider(productId));
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Editar Product'),
-        actions: [
-          IconButton(
-            onPressed: (){},
-            icon: const Icon(Icons.camera_alt_outlined)
-          ),
-        ],
-      ),
 
-      body: productState.isLoading
-        ? const FullScreenLoader()
-        : _ProductView(product: productState.product!),
 
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          if (productState.product == null) return;
+    // just to close keyboard whent tap outside
+    return GestureDetector(
+      // toca afuera y cierra el teclado
+      onTap: () => FocusScope.of(context).unfocus(),
 
-          ref.read(productFormProvider(productState.product!).notifier)
-            .onFormSubmit()
-            .then((value) { // No usar context dentro de async blocs
-              if (!value) return;
-              showSnackbar(context);
-            });
-
-        },
-        child: const Icon(Icons.save_as_outlined),
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Editar Product'),
+          actions: [
+            IconButton(
+              onPressed: (){},
+              icon: const Icon(Icons.camera_alt_outlined)
+            ),
+          ],
+        ),
+    
+        body: productState.isLoading
+          ? const FullScreenLoader()
+          : _ProductView(product: productState.product!),
+    
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            if (productState.product == null) return;
+    
+            ref.read(productFormProvider(productState.product!).notifier)
+              .onFormSubmit()
+              .then((value) { // No usar context dentro de async blocs
+                if (!value) return;
+                showSnackbar(context);
+              });
+    
+          },
+          child: const Icon(Icons.save_as_outlined),
+        ),
       ),
     );
   }
@@ -222,9 +230,11 @@ class _SizeSelector extends StatelessWidget {
           label: Text(size, style: const TextStyle(fontSize: 10))
         );
       }).toList(), 
+
       selected: Set.from( selectedSizes ),
       onSelectionChanged: (newSelection) {
         onSizesChanged(List.from(newSelection));  // 'cause it's a Set
+        FocusScope.of(context).unfocus();
       },
       multiSelectionEnabled: true,
     );
@@ -266,6 +276,7 @@ class _GenderSelector extends StatelessWidget {
 
         onSelectionChanged: (newSelection) {
           onGenderChanged(newSelection.first); // 'cause it's a Set
+          FocusScope.of(context).unfocus();
         },
       ),
     );
