@@ -54,6 +54,36 @@ class ProductsNotifier extends StateNotifier<ProductsState> {
     );
   }
 
+
+  // // Centralizar el saveProduct tanto para el Back como la UI
+  Future<bool> saveProduct(Map<String, dynamic> productLike) async {
+    try {
+      // impact backend
+      final product = await productsRepository.saveProduct(productLike);
+
+      // // UPD UI (notify to re-render)
+      final isProductInState = state.products.any((p) => p.id == product.id);
+
+      // create
+      if (!isProductInState) {
+        state = state.copyWith(
+          products: [...state.products, product]
+        );
+        return true;
+      }
+
+      // update
+      state = state.copyWith(
+        products: state.products.map(
+          (p) => p.id == product.id ? product : p
+        ).toList(),
+      );
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
 }
 
 

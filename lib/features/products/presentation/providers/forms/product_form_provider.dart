@@ -3,6 +3,7 @@ import 'package:formz/formz.dart';
 
 import 'package:teslo_shop/config/constants/environment.dart';
 import 'package:teslo_shop/features/products/domain/domain.dart';
+import 'package:teslo_shop/features/products/presentation/providers/providers.dart';
 import 'package:teslo_shop/features/shared/shared.dart';
 
 
@@ -15,11 +16,12 @@ import 'package:teslo_shop/features/shared/shared.dart';
 final productFormProvider = StateNotifierProvider.autoDispose.family
   <ProductFormNotifier, ProductFormState, Product>((ref, product) {
 
-  // TODO: createUpdateCallback
+  // final saveProductCallback = ref.watch(productsRepositoryProvider).saveProduct; // no hacerlo separado, esto solo acata al back pero No upd la UI xq eso lo controlar el    ProductsProvider
+  final saveProductCallback = ref.watch(productsProvider.notifier).saveProduct; // centralized
 
   return ProductFormNotifier(
     product: product,
-    // onSubmitCallback: 
+    onSubmitCallback: saveProductCallback
   );
 });
 
@@ -30,7 +32,7 @@ final productFormProvider = StateNotifierProvider.autoDispose.family
 // // State notifier: Generico para varios Providers de != useCases
 class ProductFormNotifier extends StateNotifier<ProductFormState> {
 
-  final void Function(Map<String, dynamic> productLike)? onSubmitCallback;
+  final Future<bool> Function(Map<String, dynamic> productLike)? onSubmitCallback;
 
   ProductFormNotifier({
     this.onSubmitCallback,
@@ -148,7 +150,7 @@ class ProductFormNotifier extends StateNotifier<ProductFormState> {
     _touchedEverything();
 
     if (!state.isFormValid) return false;
-    // if (onSubmitCallback == null) return false;
+    if (onSubmitCallback == null) return false;
 
     // like Product 'cause form returns somethig LIKE a product
     final productLike = {
@@ -166,8 +168,12 @@ class ProductFormNotifier extends StateNotifier<ProductFormState> {
       ).toList(),
     };
 
-    return true;
-    // TODO: call this method
+    try {
+      await onSubmitCallback!(productLike);
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 
 

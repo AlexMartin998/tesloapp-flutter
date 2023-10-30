@@ -9,7 +9,7 @@ abstract class ProductsRepository {
 
   Future<List<Product>> searchProductByTerm(String term);
 
-  Future<Product> createUpdateProduct(Map<String, dynamic> productLike);
+  Future<Product> saveProduct(Map<String, dynamic> productLike);
 
 }
 
