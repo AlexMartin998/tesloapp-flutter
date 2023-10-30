@@ -19,6 +19,7 @@ class LoginScreen extends StatelessWidget {
 
 
     return GestureDetector( // tap outside to close keyboard
+      // toca afuera y cierra el teclado
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
 
