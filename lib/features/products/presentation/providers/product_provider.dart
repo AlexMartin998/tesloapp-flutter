@@ -42,6 +42,16 @@ class ProductNotifier extends StateNotifier<ProductState> {
 
   Future<void> loadProduct() async {
     try {
+      // // id: /new to create
+      if (state.id == 'new') {
+        state = state.copyWith(
+          isLoading: false,
+          product: _newEmptyProduct(),
+        );
+        return;
+      }
+
+
       // ya tengo el ID xq el super() se ejecuta antes de llegar al constructor
       final product = await productsRepository.getProductById(state.id);
 
@@ -54,6 +64,22 @@ class ProductNotifier extends StateNotifier<ProductState> {
     } catch (e) {
       print(e);
     }
+  }
+
+
+  Product _newEmptyProduct() {
+    return Product(
+      id: 'new',
+      title: '',
+      price: 0,
+      description: '',
+      slug: '',
+      stock: 0,
+      sizes: [],
+      gender: 'men',
+      tags: [],
+      images: [],
+    );
   }
 
 }
