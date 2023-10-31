@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:teslo_shop/features/products/domain/domain.dart';
 import 'package:teslo_shop/features/products/presentation/providers/providers.dart';
-import 'package:teslo_shop/features/shared/presentation/widgets/widgets.dart';
 import 'package:teslo_shop/features/shared/shared.dart';
 
 
@@ -327,7 +326,7 @@ class _ImageGallery extends StatelessWidget {
         viewportFraction: 0.7
       ),
 
-      children: images.map((image){
+      children: images.map((image) {
         late ImageProvider imageProvider;
         if (image.startsWith('http')) {
           imageProvider = NetworkImage(image);
